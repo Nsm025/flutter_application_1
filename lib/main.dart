@@ -32,64 +32,68 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String title = "Task2";
   String msg = "Task 2 ready";
+  TextEditingController name = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: Drawer(
-            semanticLabel: title,
             child: Column(
-              children: [
-                DrawerHeader(
-                  child: Container(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Go For It!!',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      height: 100,
-                      color: Colors.black),
-                ),
-                ListTile(
-                  title: Text("Profile"),
-                  leading: Icon(Icons.person_off_outlined),
-                ),
-                ListTile(
-                  title: Text("Add card"),
-                  leading: Icon(Icons.atm),
-                  onTap: () {
-                    print("Card added");
-                  },
-                ),
-                ListTile(
-                  title: Text("Add to Cart"),
-                  leading: Icon(Icons.add_shopping_cart),
-                  onTap: () {
-                    print("Added to Cart");
-                  },
-                ),
-                ListTile(
-                  title: Text("Updates"),
-                  leading: Icon(Icons.ac_unit),
-                  onTap: () {
-                    print("Updated");
-                  },
-                ),
-                ListTile(
-                  title: Text("Photo"),
-                  leading: Icon(Icons.add_a_photo),
-                  onTap: () {
-                    print("Photo added");
-                  },
-                ),
-                ListTile(
-                  title: Text("Log out"),
-                  leading: Icon(Icons.logout),
-                ),
-              ],
-            )),
+          children: [
+            DrawerHeader(
+              child: Container(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Go For It!!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  height: 100,
+                  color: Colors.black),
+            ),
+            ListTile(
+              title: Text("Profile"),
+              leading: Icon(Icons.person_off_outlined),
+            ),
+            ListTile(
+              title: Text("Add card"),
+              leading: Icon(Icons.atm),
+              onTap: () {
+                print("Card added");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.access_alarm),
+              title: Text(" alarm"),
+            ),
+            ListTile(
+              title: Text("Add to Cart"),
+              leading: Icon(Icons.add_shopping_cart),
+              onTap: () {
+                print("Added to Cart");
+              },
+            ),
+            ListTile(
+              title: Text("Updates"),
+              leading: Icon(Icons.ac_unit),
+              onTap: () {
+                print("Updated");
+              },
+            ),
+            ListTile(
+              title: Text("Photo"),
+              leading: Icon(Icons.add_a_photo),
+              onTap: () {
+                print("Photo added");
+              },
+            ),
+            ListTile(
+              title: Text("Log out"),
+              leading: Icon(Icons.logout),
+            ),
+          ],
+        )),
         appBar: AppBar(
           title: Text(title, style: TextStyle(color: Colors.white)),
           actions: [
@@ -150,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextFormField(
+                    controller: name,
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Enter your name',
@@ -183,6 +188,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ],
                 ),
+                ElevatedButton(
+                  child: Text('Next'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              SecondRoute(text: name.text.toString())),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -208,5 +224,36 @@ class _MyHomePageState extends State<MyHomePage> {
         msg = 'Task 2 is ready';
       }
     });
+  }
+}
+
+class SecondRoute extends StatelessWidget {
+  final String text;
+  SecondRoute({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Page"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              text + " thankyou for submitting",
+              style: TextStyle(fontSize: 30, fontStyle: FontStyle.italic),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Go back!'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
